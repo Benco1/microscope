@@ -1,3 +1,4 @@
+// Temp placeholder data
 var postsData = [
 	{
 		title: 'Introducing Telescope',
