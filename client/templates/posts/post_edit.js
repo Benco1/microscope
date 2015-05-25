@@ -9,13 +9,19 @@ Template.postEdit.events({
 			title: $(e.target).find('[name=title]').val()
 		};
 
-		// $set only operates on the specified fields, leaving the others untouched
-		Posts.update(currentPostId, {$set: postProperties}, function(error) {
+		Meteor.call('postUpdate', currentPostId, postProperties, function(error, result) {
 			if (error) {
-				alert(error.reason);
-			} else {
-				Router.go('postPage', {_id: currentPostId});
+				return alert(error.reason);
 			}
+
+			if (!! result.ownsDoc) {
+				alert('Not authorized');
+			}
+
+			if (result.postExists) {
+				alert('This link already exists');
+			}
+			Router.go('postPage', {_id: currentPostId});
 		});
 	},
 
